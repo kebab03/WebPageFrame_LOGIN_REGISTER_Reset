@@ -306,6 +306,9 @@ def toggle():
 @app.route('/toggle', methods=['GET', 'POST'])
 @login_required
 def toggle():
+    if 'email' not in session:
+        flash('You are not logged in. Please log in to access this page.', 'danger')
+        return redirect(url_for('login'))    
     user = User.query.filter_by(email=session['email']).first()
     button_settings = ButtonSettings.query.filter_by(user_id=user.id).first()
 
